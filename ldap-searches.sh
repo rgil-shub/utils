@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# LDAP searches in Active Directory
+# Common LDAP searches
 # Requires: ldapsearch (openldap-clients)
 
 LDAP_USER="cn=user_example,cn=Users,dc=domain_example,dc=com"
@@ -10,17 +10,30 @@ LDAP_BASE="DC=domain_example,DC=com"
 
 usage() {
 cat << EOF
-Usage: $0 [login] [filter]
+Common ldapsearches
+Usage: $0 [options]
+Options:
+  login                        All login entries
+  login attribute              Filter by attributes
+  -d login attribute           Decode base64
 EOF
 }
 
-if [ $# -gt "2" ] ; then
+OPTIONS="-w $LDAP_PASS -D $LDAP_USER -h $LDAP_SERVER -b $LDAP_BASE"
+
+if [ $# -gt "3" ] ; then
     usage
+# ./ldapsearch
 elif [ $# = 0 ] ; then
-    ldapsearch -w $LDAP_PASS -D $LDAP_USER -h $LDAP_SERVER -b $LDAP_BASE "(objectclass=*)"
+    ldapsearch $OPTIONS "(objectclass=*)"
+# ./ldapsearch login
 elif [ $# = 1 ] ; then
-    ldapsearch -w $LDAP_PASS -D $LDAP_USER -h $LDAP_SERVER -b $LDAP_BASE "(sAMAccountName=$1)"
+    ldapsearch $OPTIONS "(sAMAccountName=$1)"
+# ./ldapsearch login attribute
 elif [ $# = 2 ] ; then
-    ldapsearch -w $LDAP_PASS -D $LDAP_USER -h $LDAP_SERVER -b $LDAP_BASE "(sAMAccountName=$1)" $2
+    ldapsearch $OPTIONS "(sAMAccountName=$1)" $2
+# ./ldapsearch -d login attribute
+elif [ $# = 3 ] & [ $1 = "-d" ]; then
+    ldapsearch $OPTIONS -LLL "(sAMAccountName=$2)" $3 | grep -v refldap | cut -d" " -f2 | base64 -di  
 fi
 
