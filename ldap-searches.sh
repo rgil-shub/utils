@@ -17,7 +17,7 @@ EOF
 if [ $# -gt "2" ] ; then
     usage
 elif [ $# = 0 ] ; then
-    ldapsearch -w $LDAP_PASS -D $LDAP_USER -h $LDAP_SERVER -b $LDAP_BASE -s sub "(objectclass=*)"
+    ldapsearch -w $LDAP_PASS -D $LDAP_USER -h $LDAP_SERVER -b $LDAP_BASE "(objectclass=*)"
 elif [ $# = 1 ] ; then
     ldapsearch -w $LDAP_PASS -D $LDAP_USER -h $LDAP_SERVER -b $LDAP_BASE "(sAMAccountName=$1)"
 elif [ $# = 2 ] ; then
