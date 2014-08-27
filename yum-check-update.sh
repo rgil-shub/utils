@@ -1,6 +1,8 @@
 #!/bin/bash
 
 # Check and notify updates (yum check-update)
+# Requires: mailx
+# Version: 20140806
 
 DEST="user@example.org"
 SENDER="root@example.org"
