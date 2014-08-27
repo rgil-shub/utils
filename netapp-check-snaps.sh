@@ -2,7 +2,7 @@
 
 # Check if all netapp volumes have recent snapshots
 # Requires: ssh (openssh-clients) 
-# Version 20140827
+# Version 2014082724
 
 USER="root"
 FILER="$1"
@@ -19,11 +19,11 @@ cat << EOF
 NetApp Snapshots status
 Usage: $0 [filer]
 EOF
+exit 1
 }
 
 if [ $# != "1" ] ; then
     usage
-    exit 0
 fi
 
 if [ ! -f /usr/bin/ssh ] ; then
@@ -50,6 +50,8 @@ echo "> Snapshots: $NUM_SNAPS ($TODAY)"
 
 if [ $NUM_VOL -eq $N_SNAPS ]; then
     echo "* All volumes with recent snapshots"
+    exit 0
 else
     echo "* There are volumes without recent snapshots !"
+    exit 1
 fi
