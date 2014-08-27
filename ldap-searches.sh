@@ -28,6 +28,7 @@ EOF
 
 if [ $# -gt "3" ] ; then
     usage
+    exit 0
 elif [ $# = 0 ] ; then
     # ./ldapsearch
     ldapsearch $OPTIONS "(objectclass=*)"
