@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check Fujitsu RAID status
-#
+# Version: 20140827
 # Requires: ServerView_RAID RPM
 # FUJITSU Software Serverview Suite: 
 # http://support.ts.fujitsu.com/prim_supportcd/
