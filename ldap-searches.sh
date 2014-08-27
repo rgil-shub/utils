@@ -2,6 +2,7 @@
 
 # Common LDAP searches
 # Requires: ldapsearch (openldap-clients)
+# Version: 20140827
 
 if [ ! -f /usr/bin/ldapsearch ] ; then
     echo "ldapsearch command not found, please install openldap-clients."
@@ -28,7 +29,7 @@ EOF
 
 if [ $# -gt "3" ] ; then
     usage
-    exit 0
+    exit 1
 elif [ $# = 0 ] ; then
     # ./ldapsearch
     ldapsearch $OPTIONS "(objectclass=*)"
