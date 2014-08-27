@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. colors.sh
+# Set the maximum clock frequency in my Lenovo X220
+# Version: 20140827
 
 usage() {
 cat << EOF
@@ -13,16 +14,16 @@ EOF
 # args
 if [ $# -eq 0 ] ; then
     usage
-    exit 0
+    exit 1
 fi
 
 # root?
 if [ ! ${EUID} == 0 ] ; then
-    echo_error "Root privileges are required for running CPU Scaling."
+    echo "Root privileges are required for running CPU Scaling."
     exit 1
 fi
 
-echo_h2 "Setting current max frequency ..."
+echo "* Setting current max frequency ..."
 echo "$1" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 echo "$1" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
 echo "$1" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
