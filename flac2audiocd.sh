@@ -3,6 +3,7 @@
 # 2 seconds gapless audio CD creation from flac.
 # https://wiki.archlinux.org/index.php/Gapless_Audio_CD_Creation_from_MP3s
 # Requires: flac, cdrdao
+# Version: 20140827
 
 . colors.sh
 
@@ -12,13 +13,13 @@ flac2audiocd 0.1
 Gapless audio CD creation using cdrdao
 Usage: $0 <path>
 EOF
+exit 1
 }
 
 if [ -z "$1" ]
     then
         echo "No argument supplied"
         usage
-        exit 0
 fi
 
 
