@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Check netapp volume space
+# Check netapp volume and aggregate space
 # Requires: awk (gawk) ssh (openssh-clients) 
-# Version 20140827
+# Version 20140828
 
 USER="root"
 FILER="$1"
 
-HIGH_PERCENTAGE="80"
+HIGH_PERCENTAGE="90"
 LOW_PERCENTAGE="10"
 
 TXT_RED='\e[0;31m'
@@ -22,39 +22,59 @@ EOF
 exit 1
 }
 
+# args
 if [ $# != "1" ] ; then
     usage
 fi
 
+# awk?
 if [ ! -f /usr/bin/awk ] ; then
     echo "awk command not found, please install gawk."
     exit 1
 fi
 
+# ssh?
 if [ ! -f /usr/bin/ssh ] ; then
     echo "ssh command not found, please install openssh-clients."
     exit 1
 fi
 
-ping -q -w 1 $1 > /dev/null
+# host up?
+ping -q -w 1 ${FILER} > /dev/null
 if [ $? -ne 0 ] ; then
-    echo "Host $1 down !"
+    echo "Host ${FILER} down !"
     exit 1
 fi
 
-ssh ${USER}@${FILER} df -h | grep -v -P ".snapshot|Filesystem" | sort \
-    | while read line
-do
+function get_space_percentage {
 
-    PERCENTAGE=$(echo ${line} | awk '{ print $5 }' | cut -d "%" -f1 )
-    OUTPUT=$(echo ${line} | awk '{ print $1 "\t" $5 }')
-    
-    if [ ${PERCENTAGE} -gt ${HIGH_PERCENTAGE} ] ; then
-        echo -e ${TXT_RED}${OUTPUT}${TXT_RST}
-    elif [ ${PERCENTAGE} -lt ${LOW_PERCENTAGE} ] ; then
-        echo -e ${TXT_GREEN}${OUTPUT}${TXT_RST}
-    else
-        echo ${OUTPUT}
-    fi
+    ssh "$1"@"$2" "$3" | grep -v -P "$4" | sort \
+            | while read line
+    do
+   
+        PERCENTAGE=$(echo ${line} | awk '{ print $5 }' | cut -d "%" -f1 )
+        OUTPUT=$(echo ${line} | awk '{ print $1 "\t" $5 }')
 
-done
+        if [ ${PERCENTAGE} -gt ${HIGH_PERCENTAGE} ] ; then
+            echo -e ${TXT_RED}${OUTPUT}${TXT_RST}
+        elif [ ${PERCENTAGE} -lt ${LOW_PERCENTAGE} ] ; then
+            echo -e ${TXT_GREEN}${OUTPUT}${TXT_RST}
+        else
+            echo ${OUTPUT}
+        fi
+
+    done
+
+}
+
+### Aggregates ###
+echo "* Aggregates:"
+CMD="df -A"
+MATCH=".snapshot|Aggregate"
+get_space_percentage "${USER}" "${FILER}" "${CMD}" "${MATCH}"
+
+### Volumes ###
+echo "* Volumes:"
+CMD="df"
+MATCH=".snapshot|Filesystem|snap reserve"
+get_space_percentage "${USER}" "${FILER}" "${CMD}" "${MATCH}"
