@@ -16,7 +16,7 @@ TXT_RST='\e[0m'
 
 usage() {
 cat << EOF
-NetApp volume status
+NetApp volume and aggregate status
 Usage: $0 [filer]
 EOF
 exit 1
