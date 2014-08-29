@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Description: Vmware NAS VAAI Support
+# Requires: awk (gawk) ssh (openssh-clients)
+# Version: 20140829
+
+# => Mounted volumes
+# esxcfg-nas -l
+# => VAAI support
+# /bin/vmkfstools -Ph /vmfs/volumes/${DATASTORE}
+# => Enabling Password Free SSH Access on ESXi 5.0
+# http://blogs.vmware.com/vsphere/2012/07/enabling-password-free-ssh-access-on-esxi-50.html
+
+USER="root"
+HOST="$1"
+
+usage() {
+cat << EOF
+Usage: $0 [host]
+EOF
+exit 1
+}
+
+# args
+if [ $# != "1" ] ; then
+    usage
+fi
+
+# awk?
+if [ ! -f /usr/bin/awk ] ; then
+    echo "awk command not found, please install gawk."
+    exit 1
+fi
+# ssh?
+if [ ! -f /usr/bin/ssh ] ; then
+    echo "ssh command not found, please install openssh-clients."
+    exit 1
+fi
+
+# host up?
+ping -q -w 1 ${HOST} > /dev/null
+if [ $? -ne 0 ] ; then
+    echo "Host ${HOST} down !"
+    exit 1
+fi
+
+DATASTORES=$(ssh ${USER}@${HOST} "esxcfg-nas -l" \
+    | grep "mounted available" \
+    | awk '{ print $1}')
+
+for DATASTORE in $(echo ${DATASTORES});
+do
+    echo "* Datastore ${DATASTORE}"
+    ssh ${USER}@${HOST} \
+        "/bin/vmkfstools -Ph /vmfs/volumes/${DATASTORE}" \
+        | grep -P "NAS VAAI Supported|Is Native Snapshot Capable"
+done
