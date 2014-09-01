@@ -12,8 +12,9 @@
 # esxcfg-advcfg -s 1 /DataMover/HardwareAcceleratedMove
 
 # => NFS storage
-# esxcfg-nas -l
 # esxcli storage nfs list
+# => Mounted volumes
+# esxcfg-nas -l
 # => VAAI datastore support
 # /bin/vmkfstools -Ph /vmfs/volumes/${DATASTORE}
 # => Enabling Password Free SSH Access on ESXi 5.0
