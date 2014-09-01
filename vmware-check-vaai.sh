@@ -2,11 +2,18 @@
 
 # Description: Vmware NAS VAAI Support
 # Requires: awk (gawk) ssh (openssh-clients)
-# Version: 20140829
+# Version: 20140901
 
-# => Mounted volumes
+# => VAAI must be enabled in ESX (output with value "1")
+# esxcfg-advcfg -g /DataMover/HardwareAcceleratedMove
+# esxcfg-advcfg -g /DataMover/HardwareAcceleratedInit
+# => If VAAI is not enabled
+# esxcfg-advcfg -s 1 /DataMover/HardwareAcceleratedInit
+# esxcfg-advcfg -s 1 /DataMover/HardwareAcceleratedMove
+
+# => Mounted datastores
 # esxcfg-nas -l
-# => VAAI support
+# => VAAI datastore support
 # /bin/vmkfstools -Ph /vmfs/volumes/${DATASTORE}
 # => Enabling Password Free SSH Access on ESXi 5.0
 # http://blogs.vmware.com/vsphere/2012/07/enabling-password-free-ssh-access-on-esxi-50.html
@@ -31,6 +38,7 @@ if [ ! -f /usr/bin/awk ] ; then
     echo "awk command not found, please install gawk."
     exit 1
 fi
+
 # ssh?
 if [ ! -f /usr/bin/ssh ] ; then
     echo "ssh command not found, please install openssh-clients."
