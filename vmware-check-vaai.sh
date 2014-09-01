@@ -11,8 +11,9 @@
 # esxcfg-advcfg -s 1 /DataMover/HardwareAcceleratedInit
 # esxcfg-advcfg -s 1 /DataMover/HardwareAcceleratedMove
 
-# => Mounted datastores
+# => NFS storage
 # esxcfg-nas -l
+# esxcli storage nfs list
 # => VAAI datastore support
 # /bin/vmkfstools -Ph /vmfs/volumes/${DATASTORE}
 # => Enabling Password Free SSH Access on ESXi 5.0
@@ -52,10 +53,14 @@ if [ $? -ne 0 ] ; then
     exit 1
 fi
 
+# Datastores
+ssh ${USER}@${HOST} "esxcli storage nfs list"
+
 DATASTORES=$(ssh ${USER}@${HOST} "esxcfg-nas -l" \
     | grep "mounted available" \
     | awk '{ print $1}')
 
+# VAAI support?
 for DATASTORE in $(echo ${DATASTORES});
 do
     echo "* Datastore ${DATASTORE}"
