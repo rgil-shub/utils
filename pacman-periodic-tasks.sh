@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Pacman periodic tasks
+# Description: Pacman periodic tasks
+# Version: 20140902
 
 # TASK 1: Optimize pacman database: 
 # # pacman-optimize
