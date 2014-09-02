@@ -20,8 +20,6 @@
 # $ pacman -Qdtq
 # # pacman -Rsn $(pacman -Qdtq)
 
-# # pacman -Sc
-
 # TASK 4: 
 # > Deletes all the cached versions of each package except for 
 #   the most recent 3:
