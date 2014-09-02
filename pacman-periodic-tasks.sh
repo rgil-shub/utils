@@ -35,15 +35,19 @@ if [ ! ${EUID} == 0 ]; then
     exit 1
 fi
 
+# task 1
 echo "* Optimizing pacman database..."
 pacman-optimize
 
+# task 2
 echo "* Updating package file list..."
 pkgfile --update
 
-printf '\n'; echo "* Unused apps..."
+# task 3
+echo "* Unused apps..."
 pacman -Rsn $(pacman -Qdtq)
 
+# task 4
 echo "* Removing cached packages (except most recent 3)..."
 paccache -r
 echo "* Removing all the cached versions of uninstalled packages..."
