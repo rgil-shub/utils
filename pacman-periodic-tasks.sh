@@ -20,16 +20,16 @@
 # $ pacman -Qdtq
 # # pacman -Rsn $(pacman -Qdtq)
 
-# TASK 4: Remove all the cached packages that are not currently installed:
 # # pacman -Sc
 
-# TASK 4: Deletes all the cached versions of each package except for 
-#         the most recent 3:
+# TASK 4: 
+# > Deletes all the cached versions of each package except for 
+#   the most recent 3:
 # # paccache -r
-#         Removing all the cached versions of uninstalled packages
+# > Removing all the cached versions of uninstalled packages
 # # paccache -ruk0
-
-. colors.sh
+# > Optional: Remove all the cached packages not currently installed
+# # pacman -Sc
 
 # root?
 if [ ! ${EUID} == 0 ]; then
