@@ -20,19 +20,33 @@
 # $ pacman -Qdtq
 # # pacman -Rsn $(pacman -Qdtq)
 
+# TASK 4: Remove all the cached packages that are not currently installed:
+# # pacman -Sc
+
+# TASK 4: Deletes all the cached versions of each package except for 
+#         the most recent 3:
+# # paccache -r
+#         Removing all the cached versions of uninstalled packages
+# # paccache -ruk0
+
 . colors.sh
 
 # root?
 if [ ! ${EUID} == 0 ]; then
-    echo_error "Root privileges are required for running pacman tasks"
+    echo "Root privileges are required for running pacman tasks !"
     exit 1
 fi
 
-echo_h2 "Optimizing pacman database..."
+echo "* Optimizing pacman database..."
 pacman-optimize
 
-echo_h2 "Updating package file list..."
+echo "* Updating package file list..."
 pkgfile --update
 
-printf '\n'; echo_h2 "Unused apps..."
+printf '\n'; echo "* Unused apps..."
 pacman -Rsn $(pacman -Qdtq)
+
+echo "* Removing cached packages (except most recent 3)..."
+paccache -r
+echo "* Removing all the cached versions of uninstalled packages..."
+paccache -ruk0
