@@ -6,9 +6,9 @@
 # * Start Daemon for ServerView RAID Manager (aurad)
 # Version: 20140905
 
-# Software:
-# * FUJITSU Software Serverview Suite: 
-#   http://support.ts.fujitsu.com/prim_supportcd/
+# Software Download:
+# * FUJITSU Software Serverview Suite
+#   http://support.ts.fujitsu.com/prim_supportcd
 # * Community Linux
 #   ftp://ftp.ts.fujitsu.com/community-linux
 
