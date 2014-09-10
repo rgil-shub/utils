@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Check if all netapp volumes have recent snapshots
+# Description: Check if all netapp volumes have recent snapshots
 # Requires: ssh (openssh-clients) 
-# Version 20140908
+# Version 20140910
 
 USER="root"
 FILER="$1"
@@ -23,7 +23,7 @@ EOF
 exit 1
 }
 
-# args?
+# args
 if [ $# != "1" ] ; then
     usage
 fi
