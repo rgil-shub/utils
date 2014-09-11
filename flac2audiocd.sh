@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# 2 seconds gapless audio CD creation from flac.
+# Description: 2 seconds gapless audio CD creation from flac.
 # https://wiki.archlinux.org/index.php/Gapless_Audio_CD_Creation_from_MP3s
-# Requires: flac, cdrdao
-# Version: 20140827
+# Requires: flac cdrdao
+# Version: 20140911
 
 . colors.sh
 
@@ -16,13 +16,26 @@ EOF
 exit 1
 }
 
+# args
 if [ -z "$1" ]
     then
         echo "No argument supplied"
         usage
 fi
 
+# flac?
+if [ ! -f /usr/bin/flac ] ; then
+    echo "flac command not found, please install flac."
+    exit 1
+fi
 
+# cdrdao?
+if [ ! -f /usr/bin/cdrdao ] ; then
+    echo "flac command not found, please install flac."
+    exit 1
+fi
+
+# path
 cd "$1"
 
 # Song names with spaces
@@ -55,4 +68,4 @@ eject /dev/cdrom
 
 # clean
 echo_h1 "Cleaning..."
-rm *.wav toc
+rm ./*.wav toc
