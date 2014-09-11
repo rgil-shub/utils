@@ -31,7 +31,7 @@ fi
 
 # cdrdao?
 if [ ! -f /usr/bin/cdrdao ] ; then
-    echo "flac command not found, please install flac."
+    echo "cdrdao command not found, please install cdrdao."
     exit 1
 fi
 
