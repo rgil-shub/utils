@@ -12,6 +12,7 @@ LOW_PERCENTAGE="10"
 
 TXT_RED="tput setaf 1"
 TXT_GREEN="tput setaf 2"
+TXT_BOLD="tput bold"
 TXT_RST="tput sgr0"
 
 usage() {
@@ -56,7 +57,7 @@ function get_space_percentage {
         OUTPUT=$(echo ${line} | awk '{ print $1 "\t" $5 }')
 
         if [ ${PERCENTAGE} -gt ${HIGH_PERCENTAGE} ] ; then
-            $(echo ${TXT_RED})
+            $(echo ${TXT_RED}); $(echo ${TXT_BOLD})
             echo ${OUTPUT}
             $(echo ${TXT_RST})
         elif [ ${PERCENTAGE} -lt ${LOW_PERCENTAGE} ] ; then
