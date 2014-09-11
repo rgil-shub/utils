@@ -41,7 +41,7 @@ if [ ! -f /usr/bin/ssh ] ; then
 fi
 
 # tput?
-if [ ! -f /usr/bin/ssh ] ; then
+if [ ! -f /usr/bin/tput ] ; then
     echo "tput command not found, please install ncurses."
     exit 1
 fi
