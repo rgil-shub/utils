@@ -19,7 +19,7 @@
 
 # TASK 3: Show and remove unused apps: 
 # $ pacman -Qdtq
-# # pacman -Rsn $(pacman -Qdtq)
+# # pacman -Rsn "$(pacman -Qdtq)"
 
 # TASK 4: 
 # > Deletes all the cached versions of each package except for 
@@ -46,7 +46,7 @@ pkgfile --update
 
 # task 3
 echo "* Unused apps..."
-pacman -Rsn $(pacman -Qdtq)
+pacman -Rsn "$(pacman -Qdtq)"
 
 # task 4
 echo "* Removing cached packages (except most recent 3)..."
