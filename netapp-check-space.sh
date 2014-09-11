@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Check netapp volume and aggregate space
-# Requires: awk (gawk) ssh (openssh-clients) 
-# Version 20140911
+# Requires: awk (gawk) ssh (openssh-clients) tput (ncurses)
+# Version 2014091113
 
 USER="root"
 FILER="$1"
@@ -40,6 +40,12 @@ if [ ! -f /usr/bin/ssh ] ; then
     exit 1
 fi
 
+# tput?
+if [ ! -f /usr/bin/ssh ] ; then
+    echo "tput command not found, please install ncurses."
+    exit 1
+fi
+
 # host up?
 ping -q -w 1 ${FILER} > /dev/null
 if [ $? -ne 0 ] ; then
@@ -57,7 +63,8 @@ function get_space_percentage {
         OUTPUT=$(echo ${line} | awk '{ print $1 "\t" $5 }')
 
         if [ ${PERCENTAGE} -gt ${HIGH_PERCENTAGE} ] ; then
-            $(echo ${TXT_RED}); $(echo ${TXT_BOLD})
+            $(echo ${TXT_RED})
+            $(echo ${TXT_BOLD})
             echo ${OUTPUT}
             $(echo ${TXT_RST})
         elif [ ${PERCENTAGE} -lt ${LOW_PERCENTAGE} ] ; then
