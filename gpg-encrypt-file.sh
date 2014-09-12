@@ -2,18 +2,13 @@
 
 # Description: Encrypt files with GPG symmetric and AES256 cipher 
 # Requires: gpg (gnupg)
-# Version: 20140912
+# Version: 2014091209
 
 FILE_IN="$1"
 FILE_OUT="$1".gpg
 
 CIPHER="AES256"
 COMPRESS="zlib"
-
-OPTIONS="--output ${FILE_OUT} \
-    --cipher-algo ${CIPHER} \
-    --compress-algo ${COMPRESS} \
-    --symmetric ${FILE_IN}"
 
 usage() {
 cat << EOF
@@ -33,4 +28,8 @@ if [ ! -f /usr/bin/gpg ] ; then
     exit 1
 fi
 
-gpg ${OPTIONS}
+# encrypt
+gpg --output "${FILE_OUT}" \
+    --cipher-algo "${CIPHER}" \
+    --compress-algo "${COMPRESS}" \
+    --symmetric "${FILE_IN}"
