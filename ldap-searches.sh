@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # Common LDAP searches
 # Requires: ldapsearch (openldap-clients)
-# Version: 20140827
+# Version: 20140912
 
 if [ ! -f /usr/bin/ldapsearch ] ; then
     echo "ldapsearch command not found, please install openldap-clients."
@@ -14,7 +14,7 @@ LDAP_PASS="PASSWORD"
 LDAP_SERVER="server.domain_example.com"
 LDAP_BASE="DC=domain_example,DC=com"
 
-OPTIONS="-w $LDAP_PASS -D $LDAP_USER -h $LDAP_SERVER -b $LDAP_BASE"
+OPTIONS=(-w $LDAP_PASS -D $LDAP_USER -h $LDAP_SERVER -b $LDAP_BASE)
 
 usage() {
 cat << EOF
@@ -32,15 +32,15 @@ if [ $# -gt "3" ] ; then
     exit 1
 elif [ $# = 0 ] ; then
     # ./ldapsearch
-    ldapsearch $OPTIONS "(objectclass=*)"
+    ldapsearch "${OPTIONS[@]}" "(objectclass=*)"
 elif [ $# = 1 ] ; then
     # ./ldapsearch login
-    ldapsearch $OPTIONS "(sAMAccountName=$1)"
+    ldapsearch "${OPTIONS[@]}" "(sAMAccountName=$1)"
 elif [ $# = 2 ] ; then
     # ./ldapsearch login attribute    
-    ldapsearch $OPTIONS "(sAMAccountName=$1)" $2
-elif [ $# = 3 ] & [ $1 = "-d" ]; then
+    ldapsearch "${OPTIONS[@]}" "(sAMAccountName=$1)" "$2"
+elif [ $# = 3 ] & [ "$1" = "-d" ]; then
     # ./ldapsearch -d login attribute
-    ldapsearch $OPTIONS -LLL "(sAMAccountName=$2)" $3 | grep -v refldap | cut -d" " -f2 | base64 -di  
+    ldapsearch "${OPTIONS[@]}" -LLL "(sAMAccountName=$2)" "$3" | grep -v refldap | cut -d" " -f2 | base64 -di  
 fi
 
