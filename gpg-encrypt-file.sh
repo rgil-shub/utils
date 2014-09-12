@@ -33,4 +33,4 @@ if [ ! -f /usr/bin/gpg ] ; then
     exit 1
 fi
 
-gpg ${OPTIONS}
+gpg "${OPTIONS}"

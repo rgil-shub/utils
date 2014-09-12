@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Set the maximum clock frequency in my Lenovo X220
-# Version: 20140827
+# Description: Set the maximum clock frequency in my Lenovo X220
+# Version: 20140911
 
 usage() {
 cat << EOF
@@ -28,4 +28,4 @@ echo "$1" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 echo "$1" > /sys/devices/system/cpu/cpu1/cpufreq/scaling_max_freq
 echo "$1" > /sys/devices/system/cpu/cpu2/cpufreq/scaling_max_freq
 echo "$1" > /sys/devices/system/cpu/cpu3/cpufreq/scaling_max_freq
-echo "$(cat /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_max_freq)"
+cat /sys/devices/system/cpu/cpu[0-3]/cpufreq/scaling_max_freq

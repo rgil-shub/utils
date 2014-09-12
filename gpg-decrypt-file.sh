@@ -9,7 +9,7 @@
 # echo ${FILENAME%%.*} -> file
 
 FILE_IN="$1"
-FILE_OUT=$(echo ${FILE_IN%.*})
+FILE_OUT=$(echo "${FILE_IN%.*}")
 
 OPTIONS="--output ${FILE_OUT} --decrypt ${FILE_IN}"
 
@@ -31,4 +31,4 @@ if [ ! -f /usr/bin/gpg ] ; then
     exit 1
 fi
 
-gpg ${OPTIONS}
+gpg "${OPTIONS}"
