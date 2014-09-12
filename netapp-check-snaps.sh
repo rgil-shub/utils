@@ -63,7 +63,7 @@ else
         | awk '{ print $1}')
     for VOLUME in ${VOLUMES};
     do
-        ssh ${USER}@"${FILER}" snap list "${VOLUME}" \
+        ssh ${USER}@"${FILER}" snap list ${VOLUME} \
             | grep -i "${TODAY}" \
             | grep -P "nightly.0|weekly.0" > /dev/null
         if [ $? = "0" ] ; then
