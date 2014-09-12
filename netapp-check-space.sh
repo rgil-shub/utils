@@ -2,7 +2,7 @@
 
 # Check netapp volume and aggregate space
 # Requires: awk (gawk) ssh (openssh-clients) tput (ncurses)
-# Version 2014091113
+# Version 20140912
 
 USER="root"
 FILER="$1"
@@ -47,7 +47,7 @@ if [ ! -f /usr/bin/tput ] ; then
 fi
 
 # host up?
-ping -q -w 1 ${FILER} > /dev/null
+ping -q -w 1 "${FILER}" > /dev/null
 if [ $? -ne 0 ] ; then
     echo "Host ${FILER} down !"
     exit 1
@@ -59,20 +59,20 @@ function get_space_percentage {
             | while read line
     do
    
-        PERCENTAGE=$(echo ${line} | awk '{ print $5 }' | cut -d "%" -f1 )
-        OUTPUT=$(echo ${line} | awk '{ print $1 "\t" $5 }')
+        PERCENTAGE=$(echo "${line}" | awk '{ print $5 }' | cut -d "%" -f1 )
+        OUTPUT=$(echo "${line}" | awk '{ print $1 "\t" $5 }')
 
-        if [ ${PERCENTAGE} -gt ${HIGH_PERCENTAGE} ] ; then
-            $(echo ${TXT_RED})
-            $(echo ${TXT_BOLD})
-            echo ${OUTPUT}
-            $(echo ${TXT_RST})
-        elif [ ${PERCENTAGE} -lt ${LOW_PERCENTAGE} ] ; then
-            $(echo ${TXT_GREEN})
-            echo ${OUTPUT}
-            $(echo ${TXT_RST})
+        if [ "${PERCENTAGE}" -gt "${HIGH_PERCENTAGE}" ] ; then
+            $(echo "${TXT_RED}")
+            $(echo "${TXT_BOLD}")
+            echo "${OUTPUT}"
+            $(echo "${TXT_RST}")
+        elif [ "${PERCENTAGE}" -lt "${LOW_PERCENTAGE}" ] ; then
+            $(echo "${TXT_GREEN}")
+            echo "${OUTPUT}"
+            $(echo "${TXT_RST}")
         else
-            echo ${OUTPUT}
+            echo "${OUTPUT}"
         fi
 
     done
