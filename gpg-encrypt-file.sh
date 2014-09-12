@@ -2,7 +2,7 @@
 
 # Description: Encrypt files with GPG symmetric and AES256 cipher 
 # Requires: gpg (gnupg)
-# Version: 20140902
+# Version: 20140912
 
 FILE_IN="$1"
 FILE_OUT="$1".gpg
@@ -33,4 +33,4 @@ if [ ! -f /usr/bin/gpg ] ; then
     exit 1
 fi
 
-gpg "${OPTIONS}"
+gpg ${OPTIONS}

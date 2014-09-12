@@ -2,7 +2,7 @@
 
 # Description: Decrypt files with GPG
 # Requires: gpg (gnupg)
-# Version: 20140902
+# Version: 20140912
 
 # echo ${FILENAME}     -> file.txt.gpg
 # echo ${FILENAME%.*}  -> file.txt
@@ -31,4 +31,4 @@ if [ ! -f /usr/bin/gpg ] ; then
     exit 1
 fi
 
-gpg "${OPTIONS}"
+gpg ${OPTIONS}
