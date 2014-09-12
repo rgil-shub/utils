@@ -2,16 +2,13 @@
 
 # Description: Decrypt files with GPG
 # Requires: gpg (gnupg)
-# Version: 20140912
+# Version: 2014091209
 
 # echo ${FILENAME}     -> file.txt.gpg
 # echo ${FILENAME%.*}  -> file.txt
 # echo ${FILENAME%%.*} -> file
 
 FILE_IN="$1"
-FILE_OUT=$(echo "${FILE_IN%.*}")
-
-OPTIONS="--output ${FILE_OUT} --decrypt ${FILE_IN}"
 
 usage() {
 cat << EOF
@@ -31,4 +28,4 @@ if [ ! -f /usr/bin/gpg ] ; then
     exit 1
 fi
 
-gpg ${OPTIONS}
+gpg --output "${FILE_IN%.*}" --decrypt "${FILE_IN}"
