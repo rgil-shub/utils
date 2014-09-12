@@ -2,7 +2,7 @@
 
 # Description: Vmware NAS VAAI Support
 # Requires: awk (gawk) ssh (openssh-clients)
-# Version: 20140901
+# Version: 20140912
 
 # => VAAI must be enabled in ESX (output with value "1")
 # esxcfg-advcfg -g /DataMover/HardwareAcceleratedMove
@@ -48,24 +48,24 @@ if [ ! -f /usr/bin/ssh ] ; then
 fi
 
 # host up?
-ping -q -w 1 ${HOST} > /dev/null
+ping -q -w 1 "${HOST}" > /dev/null
 if [ $? -ne 0 ] ; then
     echo "Host ${HOST} down !"
     exit 1
 fi
 
 # Datastores
-ssh ${USER}@${HOST} "esxcli storage nfs list"
+ssh ${USER}@"${HOST}" "esxcli storage nfs list"
 
-DATASTORES=$(ssh ${USER}@${HOST} "esxcfg-nas -l" \
+DATASTORES=$(ssh ${USER}@"${HOST}" "esxcfg-nas -l" \
     | grep "mounted available" \
     | awk '{ print $1}')
 
 # VAAI support?
-for DATASTORE in $(echo ${DATASTORES});
+for DATASTORE in $(echo "${DATASTORES}");
 do
     echo "* Datastore ${DATASTORE}"
-    ssh ${USER}@${HOST} \
+    ssh ${USER}@"${HOST}" \
         "/bin/vmkfstools -Ph /vmfs/volumes/${DATASTORE}" \
         | grep -P "NAS VAAI Supported|Is Native Snapshot Capable"
 done
