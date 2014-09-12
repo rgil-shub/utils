@@ -2,8 +2,10 @@
 
 # Description: Vmware NAS VAAI Support
 # Requires: awk (gawk) ssh (openssh-clients)
-# Version: 20140912
+# Version: 2014091212
 
+# => NetApp: Enable VMware vStorage for NFS
+# options nfs.vstorage.enable on
 # => VAAI must be enabled in ESX (output with value "1")
 # esxcfg-advcfg -g /DataMover/HardwareAcceleratedMove
 # esxcfg-advcfg -g /DataMover/HardwareAcceleratedInit
