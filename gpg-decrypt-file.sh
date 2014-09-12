@@ -28,4 +28,5 @@ if [ ! -f /usr/bin/gpg ] ; then
     exit 1
 fi
 
+# decrypt
 gpg --output "${FILE_IN%.*}" --decrypt "${FILE_IN}"
