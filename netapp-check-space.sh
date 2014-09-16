@@ -65,7 +65,7 @@ function get_space_percentage {
         if [ "${PERCENTAGE}" -gt "${HIGH_PERCENTAGE}" ] ; then
             echo "${TXT_RED}${TXT_BOLD}${OUTPUT}${TXT_RST}"
         elif [ "${PERCENTAGE}" -lt "${LOW_PERCENTAGE}" ] ; then
-            echo "${TXT_GREEN} ${OUTPUT} ${TXT_RST}"
+            echo "${TXT_GREEN}${OUTPUT}${TXT_RST}"
         else
             echo "${OUTPUT}"
         fi
