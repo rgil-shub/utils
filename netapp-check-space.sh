@@ -2,7 +2,7 @@
 
 # Check netapp volume and aggregate space
 # Requires: awk (gawk) ssh (openssh-clients) tput (ncurses)
-# Version 20140912
+# Version 20140916
 
 USER="root"
 FILER="$1"
@@ -10,10 +10,10 @@ FILER="$1"
 HIGH_PERCENTAGE="90"
 LOW_PERCENTAGE="10"
 
-TXT_RED="tput setaf 1"
-TXT_GREEN="tput setaf 2"
-TXT_BOLD="tput bold"
-TXT_RST="tput sgr0"
+TXT_RED=$(tput setaf 1)
+TXT_GREEN=$(tput setaf 2)
+TXT_BOLD=$(tput bold)
+TXT_RST=$(tput sgr0)
 
 usage() {
 cat << EOF
@@ -55,7 +55,7 @@ fi
 
 function get_space_percentage {
 
-    ssh "$1"@"$2" "$3" | grep -v -P "$4" | sort \
+    ssh -l "$1" "$2" "$3" | grep -v -P "$4" | sort \
             | while read line
     do
    
@@ -63,14 +63,9 @@ function get_space_percentage {
         OUTPUT=$(echo "${line}" | awk '{ print $1 "\t" $5 }')
 
         if [ "${PERCENTAGE}" -gt "${HIGH_PERCENTAGE}" ] ; then
-            $(echo "${TXT_RED}")
-            $(echo "${TXT_BOLD}")
-            echo "${OUTPUT}"
-            $(echo "${TXT_RST}")
+            echo "${TXT_RED}${TXT_BOLD}${OUTPUT}${TXT_RST}"
         elif [ "${PERCENTAGE}" -lt "${LOW_PERCENTAGE}" ] ; then
-            $(echo "${TXT_GREEN}")
-            echo "${OUTPUT}"
-            $(echo "${TXT_RST}")
+            echo "${TXT_GREEN} ${OUTPUT} ${TXT_RST}"
         else
             echo "${OUTPUT}"
         fi
