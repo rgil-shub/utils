@@ -3,9 +3,10 @@
 # SSH encrypted SOCKS tunnel
 # https://wiki.archlinux.org/index.php/Secure_Shell#Encrypted_SOCKS_tunnel
 # Requires: ssh (openssh-clients)
-# Version: 20140827
+# Version: 20150209
 
-PORT="example_port"
+PORT_SERVER="22"
+PORT_CLIENT="8080"
 USER="example_user"
 SERVER="example_server"
 
@@ -19,4 +20,4 @@ if [ ! -f /usr/bin/ssh ] ; then
     exit 1
 fi
 
-ssh -v -TND ${PORT} ${USER}@${SERVER}
+ssh -v -p ${PORT_SERVER} -TND ${PORT_CLIENT} ${USER}@${SERVER}
