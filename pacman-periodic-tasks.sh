@@ -50,6 +50,7 @@ pkgfile --update
 
 # task 3
 echo "* Obsolete apps..."
+pacman -Rsn "$(pacman -Qm)"
 
 # task 4
 echo "* Unused apps..."
