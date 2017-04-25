@@ -19,7 +19,7 @@
 
 # TASK 3: Show and remove packages not in official repositories
 # $ pacman -Qm
-# # pacman -Rsn "$(pacman -Qm)"
+# # pacman -Rsn "$(pacman -Qm | cut -d " " -f1)"
 
 # TASK 4: Show and remove unused apps: 
 # $ pacman -Qdtq
@@ -50,7 +50,7 @@ pkgfile --update
 
 # task 3
 echo "* Obsolete apps..."
-pacman -Rsn "$(pacman -Qm)"
+pacman -Rsn "$(pacman -Qm | cut -d " " -f1)"
 
 # task 4
 echo "* Unused apps..."
