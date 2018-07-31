@@ -1,15 +1,14 @@
 #!/bin/bash
 
 # Description: Pacman periodic tasks
-# Version: 20170425
+# Version: 20180731
 
-# TASK 1: Optimize pacman database: 
-# # pacman-optimize
-
-# TASK 2: Update package file list:
+# TASK 1: Update package file list:
 # # pacman -S pkgfile
 # # pkgfile --update
-# $ source /usr/share/doc/pkgfile/command-not-found.bash
+# $ source /usr/share/doc/pkgfile/command-not-found.bash  # BASH
+# $ source /usr/share/doc/pkgfile/command-not-found.zsh   # ZSH
+
 #
 # $ bc
 # bc may be found in the following packages:
@@ -17,15 +16,16 @@
 #   community/9base 6-5               /opt/plan9/bin/bc
 #   community/plan9port 20140306-1    /usr/lib/plan9/bin/bc
 
-# TASK 3: Show and remove packages not in official repositories
+# TASK 2: Show and remove packages not in official repositories
 # $ pacman -Qm
 # # pacman -Rsn "$(pacman -Qm | cut -d " " -f1)"
 
-# TASK 4: Show and remove unused apps: 
+# TASK 3: Show and remove unused apps: 
 # $ pacman -Qdtq
+# $ pacman -Qdttq   # Include packages optionally required by another package
 # # pacman -Rsn "$(pacman -Qdtq)"
 
-# TASK 5: 
+# TASK 4: 
 # > Deletes all the cached versions of each package except for 
 #   the most recent 3:
 # # paccache -r
@@ -41,22 +41,20 @@ if [ ! ${EUID} == 0 ]; then
 fi
 
 # task 1
-echo "* Optimizing pacman database..."
-pacman-optimize
-
-# task 2
 echo "* Updating package file list..."
 pkgfile --update
 
-# task 3
+# task 2
 echo "* Obsolete apps..."
-pacman -Rsn "$(pacman -Qm | cut -d " " -f1)"
+# pacman -Rsn "$(pacman -Qm | cut -d " " -f1)"
+pacman -Qm | cut -d " " -f1
+
+# task 3
+echo "* Unused apps..."
+# pacman -Rsn "$(pacman -Qdttq)"
+pacman -Qdttq
 
 # task 4
-echo "* Unused apps..."
-pacman -Rsn "$(pacman -Qdtq)"
-
-# task 5
 echo "* Removing cached packages (except most recent 3)..."
 paccache -r
 echo "* Removing all the cached versions of uninstalled packages..."
